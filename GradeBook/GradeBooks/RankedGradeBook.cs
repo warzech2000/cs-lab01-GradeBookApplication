@@ -6,7 +6,7 @@ namespace GradeBook.GradeBooks
 {
     public class RankedGradeBook : BaseGradeBook
     {
-        public RankedGradeBook(string name) : base(name)
+        public RankedGradeBook(string name,bool IsWeighted) : base(name, IsWeighted)
         {
             base.Type = Enums.GradeBookType.Ranked;
         }
@@ -21,6 +21,8 @@ namespace GradeBook.GradeBooks
             }
             else
             {
+                studentCount = studentCount / 5;
+
                 foreach(Student student in Students)
                 {
                     foreach(double grade in student.Grades)

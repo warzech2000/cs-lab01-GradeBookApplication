@@ -14,13 +14,16 @@ namespace GradeBook.GradeBooks
         public string Name { get; set; }
         public List<Student> Students { get; set; }
 
-        public BaseGradeBook(string name)
+        public BaseGradeBook(string name, bool IsWeighted)
         {
             Name = name;
             Students = new List<Student>();
+            this.IsWeighted = IsWeighted;
         }
         
         public GradeBookType Type { get; set; }
+
+        public bool IsWeighted { get; set; }
         
         public void AddStudent(Student student)
         {
@@ -108,20 +111,46 @@ namespace GradeBook.GradeBooks
 
         public virtual double GetGPA(char letterGrade, StudentType studentType)
         {
-            switch (letterGrade)
+
             {
-                case 'A':
-                    return 4;
-                case 'B':
-                    return 3;
-                case 'C':
-                    return 2;
-                case 'D':
-                    return 1;
-                case 'F':
-                    return 0;
+                int points = 0;
+
+                if (letterGrade == 'A') { points = 4; }
+                else if (letterGrade == 'B') { points = 3; }
+                else if (letterGrade == 'C') { points = 2; }
+                else if (letterGrade == 'D') { points = 1; }
+                else if (letterGrade == 'F') { points = 0; }
+
+                if (studentType == StudentType.Honors && IsWeighted) { points++; }
+                else if (studentType == StudentType.DualEnrolled && IsWeighted) { points++; }
+                else return points;
+                return points;
+
+                /*
+                switch (letterGrade)
+                {
+                    case 'A':
+                        return 4;
+                    case 'B':
+                        return 3;
+                    case 'C':
+                        return 2;
+                    case 'D':
+                        return 1;
+                    case 'F':
+                        return 0;
+                }
+                switch (studentType)
+                {
+                    case StudentType.Honors:
+                        
+                        return 1;
+                }
+                return 0 ;
+                */
+
             }
-            return 0;
+            
         }
 
         public virtual void CalculateStatistics()
